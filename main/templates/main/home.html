@@ -1,0 +1,61 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Cinema home {% endblock %}
+
+{% block content %}
+    <div class="home-container">
+        <div class="upper-container-home">
+            <a href="#" class="check-movies-block"> 
+                <div class="check-movies">Movie 1</div>
+            </a>
+            <a href="#" class="check-movies-block">
+                <div class="check-movies">Movie 2</div>
+            </a>
+        </div>
+        <div class="lower-container-home">
+            <div class="scroll1"><span>&larr;</span></div>
+            <div class="avaiable-movies-home">
+                {% comment %} <!-- WYŚWIETLANIE DOSTEPNYCH SEANSÓW W DOLNYM DIVIE TYLKO TYCH GDZIE ZOSTAŁO CHOCIAŻ JEDNO MIEJSCE -->
+                {% for movie in movies %}
+                    {% if movie.capacity > 0%}
+                        <div class="movie-item">
+                            <div class="img-home-container">
+                                <img src="https://image.tmdb.org/t/p/w500/{{ movie.image }}" alt="{{ movie.title }}" class='home-images'>
+                                <h4 style="text-align: center;">{{movie.date}} - {{ movie.time|time:"H:i" }}</h4>
+                                <a href="{%url 'seat-reservation-page' movie.id%}" class="btn btn-home btn-outline-primary" style="margin-top: 5px;width: 16rem;">Book</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %} {% endcomment %}
+            </div>
+            <div class="scroll2"><span>&rarr;</span></div>
+        </div>
+    </div>
+
+    <script>
+
+        // JS handling scrolling lower container with movies to left and right
+        const movieContainer = document.querySelector('.avaiable-movies-home');
+        const scrollAmount = 700;
+        const scrollLeftDiv = document.querySelector('.scroll1');
+        const scrollRightDiv = document.querySelector('.scroll2');
+
+        scrollLeftDiv.addEventListener('click', scrollLeft);
+        scrollRightDiv.addEventListener('click', scrollRight);
+
+        // Funkcja do scrollowania w lewo
+        function scrollLeft() {
+            movieContainer.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth',
+            });
+        }
+        // Funkcja do scrollowania w prawo
+        function scrollRight() {
+            movieContainer.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth',
+            });
+        }
+    </script>
+{% endblock %}

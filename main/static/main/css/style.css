@@ -1,0 +1,624 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+/* BASE HTML */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+}
+.wrapper-base{
+    min-height: 95%;
+    height: fit-content;
+    width: 95%;
+    margin: auto;
+    padding: 10px;
+}
+.footer-container{
+    width: 100%;
+    height: fit-content;
+    min-height: 10%;
+}
+
+
+/* HOME PAGE CSS */ 
+/* HOME PAGE CSS */
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+  height: fit-content;
+}
+
+.upper-container-home {
+  width: 100%;
+  min-height: 50vh;
+  height: fit-content;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+.check-movies-block {
+  width: 30%;
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.check-movies {
+  height: 35rem;
+  width: 96%;
+  text-align: center;
+  border: 1px solid black;
+  transition: 0.3s ease-in-out;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+.check-movies:hover {
+  width: 100%;
+  height: 36rem;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lower-container-home {
+  width: 100%;
+  min-height: 50vh;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll1,
+.scroll2 {
+  width: 5rem;
+  height: 15rem;
+  background-color: black;
+  margin: 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: 0.3s ease-in-out;
+}
+
+.scroll1:hover,
+.scroll2:hover {
+  background-color: purple;
+}
+
+.avaiable-movies-home {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.movie-item {
+  flex: 0 0 auto;
+  width: 18rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease-in-out;
+}
+
+.movie-item:hover {
+  transform: scale(1.05);
+}
+
+.img-home-container {
+  position: relative;
+}
+
+.home-images {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.btn-home {
+  display: inline-block;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* MOVIE RESERVATION PAGE */
+.reservation-admin-details {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.movie-details {
+  margin-bottom: 20px;
+}
+
+.movie-details h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.movie-details p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.ticket-details {
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+.ticket-details h2 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.ticket-details p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.reservation-details-admin{
+  width: 100%;
+  margin: auto;
+}
+
+/* REGISTER FORM PAGE */
+
+.register_form_container{
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+}
+
+.register{
+    width: 50%;
+    margin: auto;
+}
+
+.register_button_div{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register_button_div button{
+    width: 60%;
+    padding: 15px;
+    height: 20%;
+}
+
+/* LOGIN FORM PAGE */
+
+.login_form_container{
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+    margin-top:2rem;
+}
+
+.login{
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+.login_button_div{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_button_div button{
+    width: 60%;
+    padding: 15px;
+    height: 5%;
+}
+/* ADMIN MOVIE PAGE */
+
+/* ADMIN MOVIE PAGE */
+.movie-admin-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.movie-image {
+  flex: 0 0 50%;
+  max-width: 500px;
+  margin-right: 2rem;
+}
+.movie-image img{
+  width: 20rem;
+}
+
+.movie-admin-data {
+  flex: 0 0 50%;
+}
+
+.movie-admin-data h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.movie-admin-data h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.movie-admin-data p {
+  font-size: 1.6rem;
+  color: #777;
+}
+
+.movie-admin-data a.btn {
+  margin-bottom: 1rem;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.input-group {
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-group-append {
+  display: flex;
+}
+
+.input-group-append .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-outline-dark {
+  color: #343a40;
+  background-color: transparent;
+  border-color: #343a40;
+}
+
+.btn-outline-dark:hover {
+  color: #fff;
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
+.btn-outline-dark:focus {
+  box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+}
+
+/* MOVIE CREATION PAGE */
+
+.movie-creator-admin-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.movie-image-admin-creation {
+  flex: 0 0 50%;
+  max-width: 500px;
+  margin-right: 2rem;
+}
+
+.movie-admin-data-creator {
+  flex: 0 0 50%;
+}
+
+.movie-admin-data-creator h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.movie-admin-data-creator h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.movie-admin-data-creator p {
+  font-size: 1.6rem;
+  color: #777;
+}
+
+.creation_movie_form {
+  margin-top: 3rem;
+  width: 100%;
+  margin: auto;
+}
+
+.creation_movie_form .messages {
+  margin-bottom: 2rem;
+}
+
+.creation_movie_form .messages h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.creation_movie_form h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.creation_movie_form form {
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+}
+
+.creation_movie_form button{
+  margin-top: 1rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.8rem;
+  text-align: center;
+
+}
+
+
+
+/* MOVIES LIST USER PAGE */
+
+.movies-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie {
+  width: 80%;
+  display: flex;
+  margin-bottom: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  height: fit-content;
+}
+
+.movie-image {
+  width: 20%;
+  margin-right: 1rem;
+}
+
+.movie-image img {
+  width: 80%;
+  border-radius: 10px;
+  height: 90%;
+}
+
+.movie-description {
+  width: 80%;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.buttons a {
+  width: 20%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.movies-container-no-movies {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.movies-container-no-movies h1 {
+  font-size: 24px;
+  color: #888;
+}
+
+
+  /* SEAT RESERVATION */
+  .row {
+    display: inline-block;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    width: 90%;
+    height: fit-content;
+    margin: auto;
+    margin: 1rem 3rem;
+  }
+  .row h4{
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  .row a {
+    padding: 1%;
+    padding-left: 5%;
+    background-color: black;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
+    text-decoration:none;
+    color: white;
+    text-align: center;
+    border-radius: 20px;
+    display: inline;
+  }
+  
+  .cinema-room {
+    width: 100%;
+    height: 100%;
+  }
+
+  .seat_taken_msg{
+    width: 80%;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: red;
+    transition: 0.3s ease-in-out;
+    opacity: 0.8;
+    border-radius: 5px;
+  }
+/* RESERVATION TICKET DETIALS */
+
+.ticket-list {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.ticket-item {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  height: fit-content;
+}
+
+.ticket-title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.ticket-details {
+  margin-bottom: 2rem;
+}
+
+.ticket-info {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.ticket-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticket-actions a {
+  display: inline-block;
+  width: 50%;
+  margin-top: 1rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.5rem;
+  margin: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  color: black;
+  text-decoration: none;
+}
+
+.ticket-actions a.btn-success {
+  background-color: #28a745;
+}
+
+.ticket-actions a.btn-danger {
+  background-color: #dc3545;
+}
+
+.ticket-actions a:hover {
+  opacity: 0.8;
+}
+
+  
+
+/* Reservation data*/
+
+.reservation-container {
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 60%;
+  max-width: 800px;
+}
+
+.reservation-heading {
+  font-size: 2.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.reservation-divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1.5rem 0;
+}
+
+.reservation-movie,
+.reservation-seat {
+  font-size: 1.8rem;
+  color: #555;
+}
+
+.reservation-btn {
+  display: block;
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+.reservation-btn:hover {
+  background-color: #555;
+}
