@@ -90,17 +90,6 @@ class MovieListAPI(View):
         return movies
 
 
-
-
-
-
-
-
-
-
-
-
-
 #ABSTRACT CLASS WITH FORM VALIDATION
 class FormValidation(ABC):
     @abstractmethod
