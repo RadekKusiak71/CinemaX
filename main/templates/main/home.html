@@ -15,7 +15,7 @@
         <div class="lower-container-home">
             <div class="scroll1"><span>&larr;</span></div>
             <div class="avaiable-movies-home">
-                {% comment %} <!-- WYŚWIETLANIE DOSTEPNYCH SEANSÓW W DOLNYM DIVIE TYLKO TYCH GDZIE ZOSTAŁO CHOCIAŻ JEDNO MIEJSCE -->
+                <!-- WYŚWIETLANIE DOSTEPNYCH SEANSÓW W DOLNYM DIVIE TYLKO TYCH GDZIE ZOSTAŁO CHOCIAŻ JEDNO MIEJSCE -->
                 {% for movie in movies %}
                     {% if movie.capacity > 0%}
                         <div class="movie-item">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     {% endif %}
-                {% endfor %} {% endcomment %}
+                {% endfor %}
             </div>
             <div class="scroll2"><span>&rarr;</span></div>
         </div>
@@ -34,7 +34,7 @@
 
     <script>
 
-        // JS handling scrolling lower container with movies to left and right
+        // JS handling scrolling lower container with movies to left and rigt
         const movieContainer = document.querySelector('.avaiable-movies-home');
         const scrollAmount = 700;
         const scrollLeftDiv = document.querySelector('.scroll1');
