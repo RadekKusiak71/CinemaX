@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %} Cinema register {% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="register_form_container">
+    <h1 style="text-align: center;">CREATE ACCONT</h1>
+    <form action="" method="POST" class="register">
+        <!-- FORMULARZ REJESTRACJI BODY FORMULARZA JEST W FORMS.PY I PLIKU VIEWS.PY -->
+        {% csrf_token %}
+        {{register_form|crispy}}
+
+        <div class="register_button_div">
+            <button type="submit" class="btn btn-outline-dark" > Sign in</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
