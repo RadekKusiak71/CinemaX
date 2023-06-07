@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
+from .models import UserProfile, Movie, Room,Seat,Ticket
 
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
@@ -20,3 +21,14 @@ class NewUserForm(UserCreationForm):
 			user.save()
 		return user
 	
+
+class MovieCreationForm(ModelForm):
+	class Meta:
+		model = Movie
+		fields =  ('date','time','language','ticket_price','room')
+		labels = {
+			'date' : 'Movie date (year-month-day)',
+			'hour' : 'Movie hour (hour:minutes:seconds)',
+			'ticket_price' : 'Enter ticket price',
+			'room' : 'Choose a room'
+		}
