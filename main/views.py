@@ -15,11 +15,18 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from datetime import date,timedelta,datetime
 
-from .forms import NewUserForm
+from .forms import NewUserForm, MovieCreationForm
 from .models import UserProfile,Room,Movie,Seat,Ticket
 
 #GLOBAL VARIABLES
 page = 1
+
+
+#ABSTRACT CLASS WITH FORM VALIDATION
+class FormValidation(ABC):
+    @abstractmethod
+    def form_validation(self,form,success_url,error_msg,success_msg):
+        pass
 
 #CLASS FOR HANDLING FETCHING DATA FROM API Tmbd
 class APIFetcher:
@@ -38,7 +45,79 @@ class APIFetcher:
     def __str__(self):
         return f'API URL: {self.api_url} | ENDPOINT: {self.endpoint}'
 
+# MOVIE CREATOR PAGE 
+class MovieCreator(FormValidation,View):
+    # Page render with pk taken from url
+    def get(self,request,pk):
+        form = MovieCreationForm()
+        context = {'movie':self.get_api_data(pk,'fa16995ba428cf9d86c0d548254c7ffe'),'movie_creation_form':form}
+        return render(request,'main/movie_creator.html',context)
+    
+    # Form handling
+    def post(self,request,pk):
+        form = MovieCreationForm(request.POST)
+        return self.form_validation(form,'home_page','movie_creator_page','Room is taken already...','You have successfuly created a movie',pk)
+    
+    #Method to fetch api data
+    def get_api_data(self, pk, api_key):
+        api_fetch = APIFetcher('https://api.themoviedb.org/3', f'/movie/{pk}?api_key={api_key}')
+        movie = api_fetch.fetch_data()        
+        return movie
+    
+    #Method to check room status
+    @staticmethod
+    def get_room_status(room,time):
+        return Movie.objects.filter(room=room,time=time).exists()
+    
+    #Method to retrive data from form
+    def get_form_dict(self,form):
+        time = form.cleaned_data['time']
+        date = form.cleaned_data['date']
+        room = form.cleaned_data['room']
+        ticket_price = form.cleaned_data['ticket_price']
+        language = form.cleaned_data['language']
+
+        form_dict = {
+            'time': time,
+            'date': date,
+            'room': room,
+            'ticket_price': ticket_price,
+            'language': language
+        }
+
+        return form_dict
+    
+    #Custom from_validation
+    def form_validation(self, form, success_url, error_url,error_msg, success_msg,pk):
+        if form.is_valid():
+            form_data = self.get_form_dict(form)
+            movie = self.get_api_data(pk,'fa16995ba428cf9d86c0d548254c7ffe')
+            
+            if self.get_room_status(form_data['room'],form_data['time']):
+                messages.error(self.request,error_msg)
+                return redirect(error_url,pk)
+            else:
+                poster = movie["poster_path"]
+                Movie.objects.create(
+                    title = movie['original_title'],
+                    date = form_data['date'],
+                    time = form_data['time'],
+                    image = f'https://image.tmdb.org/t/p/w500/{poster}',
+                    duration = movie['runtime'],
+                    adult = movie['adult'],
+                    description = movie['overview'],
+                    popularity = movie['popularity'],
+                    ticket_price = form_data['ticket_price'],
+                    room = form_data['room'],
+                    )
+                messages.success(self.request,success_msg)
+                return redirect(success_url)
+        else:
+            messages.error(self.request,error_msg)
+                    
+# PAGE WITH MOVIE LIST FROM API
 class MovieListAPI(View):
+
     def get(self,request):
         context = {'movies':self.get_api_data(request)}
         return render(request,'main/movies_list_api.html',context)
@@ -89,12 +168,6 @@ class MovieListAPI(View):
                 movies = []
         return movies
 
-
-#ABSTRACT CLASS WITH FORM VALIDATION
-class FormValidation(ABC):
-    @abstractmethod
-    def form_validation(self,form,success_url,error_msg,success_msg):
-        pass
 
 #HOME PAGE RENDERING
 class HomePage(View):
