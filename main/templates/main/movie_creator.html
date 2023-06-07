@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %} Cinema movies creator {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="movie-creator-admin-panel">
+    {% if movie.backdrop_path %}
+        <div class="movie-image-admin-creation">
+            <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie.title }} backdrop">
+        </div>
+    {% endif %}
+    <div class="movie-admin-data-creator">
+        <hr>
+        <h1>{{ movie.title }}</h1>
+        <hr>
+        <h2>RATING: {{ movie.vote_average}}</h2>
+        <hr>
+        <h2>POPULARITY: {{ movie.popularity }}</h2>
+        <hr>
+        <h2>ADULT : {{movie.adult}}</h2>
+        <hr>
+        <h2>LANGUAGES:{% for language in movie.spoken_languages %} | {{language.english_name}}  {% endfor %} </h2>
+        <hr>
+        <h3>DESCRIPTION:</h3>
+        <p>{{movie.overview}}</p>
+    </div>
+</div>
+<hr>
+<div class="creation_movie_form">
+    <!-- WIADOMOŚĆ INFORMUJĄCA GDY W DANYM DNIU O DANEJ GODZINIE I W DANYM POKOJU JEST JUZ FILM -->
+    {% if messages %}
+    <div class="seat_taken_msg">
+        {% for message in messages %}
+            <h2 class="{{ message.tags }}">{{ message }}...</h2>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <h1>CREATE MOVIE</h1>
+    <!-- FORMULARZ TWORZENIA SEANSU -->
+    <form action="" method="POST" class="movie_form">
+        {% csrf_token %}
+        {{movie_creation_form|crispy}}
+        <button type="submit" class="btn  btn-lg btn-block btn-outline-dark">CREATE</button>
+    </form>
+</div>
+{% endblock %}
