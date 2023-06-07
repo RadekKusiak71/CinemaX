@@ -12,12 +12,18 @@ class UserProfile(models.Model):
         return f'User: {self.user.username}'
     
 class Movie(models.Model):
+    class LanguageChoices(models.TextChoices):
+        ENGLISH = 'ENG',_('English')
+        POLISH = 'POL',_('Polish')
+        SUBTITLES = 'ENG-SUB',_('English with polish subtitles')
+        DUBBING = 'POL-DUB',_('Polish dubbing')
+
     title = models.CharField(max_length=100)
     date = models.DateField()
     time = models.TimeField()
     image = models.URLField()
     duration = models.PositiveIntegerField()
-    original_language = models.CharField(max_length=32)
+    language = models.CharField(max_length=30,choices=LanguageChoices.choices,default=LanguageChoices.ENGLISH)
     adult = models.BooleanField()
     description = models.TextField(max_length=255)
     popularity = models.DecimalField(decimal_places=2,max_digits=6)
