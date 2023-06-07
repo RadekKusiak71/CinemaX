@@ -17,15 +17,13 @@
             <div class="avaiable-movies-home">
                 <!-- WYŚWIETLANIE DOSTEPNYCH SEANSÓW W DOLNYM DIVIE TYLKO TYCH GDZIE ZOSTAŁO CHOCIAŻ JEDNO MIEJSCE -->
                 {% for movie in movies %}
-                    {% if movie.capacity > 0%}
                         <div class="movie-item">
                             <div class="img-home-container">
                                 <img src="https://image.tmdb.org/t/p/w500/{{ movie.image }}" alt="{{ movie.title }}" class='home-images'>
-                                <h4 style="text-align: center;">{{movie.date}} - {{ movie.time|time:"H:i" }}</h4>
-                                <a href="{%url 'seat-reservation-page' movie.id%}" class="btn btn-home btn-outline-primary" style="margin-top: 5px;width: 16rem;">Book</a>
+                                <h3 style="text-align: center;">{{movie.date}} - {{ movie.time|time:"H:i" }}</h3>
+                                <a href="" class="btn btn-home btn-outline-primary" style="margin-top: 5px;width: 16rem;">Book</a>
                             </div>
                         </div>
-                    {% endif %}
                 {% endfor %}
             </div>
             <div class="scroll2"><span>&rarr;</span></div>
