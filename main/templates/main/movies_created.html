@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Cinema movies{% endblock %}
+
+{% block content %}
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="date" name="search_date" class="form-control" placeholder="Search movies by date">
+        <button type="submit" class="btn btn-outline-dark">Search</button>
+    </div>
+</form>
+<!-- PRZEWIJANIE DNI -->
+<form method="GET">
+    <button type="submit" name="last_day" class="btn btn-outline-dark">Previous day</button>
+    <button type="submit" name="next_day" class="btn btn-outline-dark">Next day</button>
+</form>
+<div class="movies-container">
+    <h2>{{ today }}</h2>
+    <!-- WARUNEK SPRAWDZANIA CZY SĄ SEANSE W DANYM DNIU ORAZ WYŚWIETLANIE ICH -->
+    {% if movies %}
+        {% for movie in movies %}
+            {% if today == movie.date %}
+                <div class="movie">
+                    <div class="movie-image">
+                        <img src="{{ movie.image }}" alt="{{ movie.title }}">
+                    </div>
+                    <div class="movie-description">
+                        <h3>{{ movie.title }} | {{ movie.time|time:"H:i" }}</h3>
+                        <p>{{ movie.description }}</p>
+                        <hr>
+                        <div class="buttons">
+                            <a href="" class="btn btn-outline-dark">Book</a>
+                            <!-- FUNKCJA DOSTĘPNA TYLKO DLA ADMINISTRATORÓW ( USUWANIE SEANSÓW + PRZECHODZENIE DO STRONY ZE WSZYSTKIMI REZERWACJAMI) -->
+                            {% if user.is_staff %}
+                                <a href="" class="btn btn-outline-secondary">Reservations</a>                         
+                                <a href="" class="btn btn-outline-danger">Cancel</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="movies-container-no-movies">
+            <h1>There are no movies planned...</h1>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

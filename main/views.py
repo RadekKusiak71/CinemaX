@@ -20,7 +20,7 @@ from .models import UserProfile,Room,Movie,Seat,Ticket
 
 #GLOBAL VARIABLES
 page = 1
-
+date_today = date.today()
 
 #ABSTRACT CLASS WITH FORM VALIDATION
 class FormValidation(ABC):
@@ -92,7 +92,6 @@ class MovieCreator(FormValidation,View):
         if form.is_valid():
             form_data = self.get_form_dict(form)
             movie = self.get_api_data(pk,'fa16995ba428cf9d86c0d548254c7ffe')
-            
             if self.get_room_status(form_data['room'],form_data['time']):
                 messages.error(self.request,error_msg)
                 return redirect(error_url,pk)
@@ -144,6 +143,7 @@ class MovieListAPI(View):
     #MOVIES LIST FROM API HANDLING + SITE FUNCIONALITY (PAGINATION,SEARCH INPUT)
     def get_api_data(self,request):
         global page
+
         if 'next_page' in request.GET:
             page = self.get_next_page(page)
         elif 'last_page' in request.GET:
@@ -168,6 +168,36 @@ class MovieListAPI(View):
                 movies = []
         return movies
 
+#CREATED MOVIES PAGE
+class MoviesCreated(View):
+    date_today = datetime.now().date()
+
+    def get(self, request):
+        movies = Movie.objects.all()
+            
+        if 'last_day' in request.GET:
+            self.get_previous_day()
+        elif 'next_day' in request.GET:
+            self.get_next_day()
+        elif 'search_date' in request.GET:
+            self.get_date()
+
+        context = {'movies': movies, 'today': MoviesCreated.date_today}
+        return render(request, 'main/movies_created.html', context)
+
+    #DATE CHANGING METHODS
+    def get_next_day(self):
+        MoviesCreated.date_today += timedelta(days=1)
+
+    def get_previous_day(self):
+        MoviesCreated.date_today -= timedelta(days=1)
+
+    #HANDLING SEARCH BY CALENDAR ALSO CHANGING FORMAT OF DATE FOR YEAR - MOTH - DAY
+    def get_date(self):
+        MoviesCreated.date_today = datetime.strptime(self.request.GET.get('search_date'), '%Y-%m-%d').date()
+    
+    def post_delete_movie(self,movie_id):
+        pass
 
 #HOME PAGE RENDERING
 class HomePage(View):
