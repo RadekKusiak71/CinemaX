@@ -483,7 +483,7 @@ body{
   .row a {
     padding: 1%;
     padding-left: 5%;
-    background-color: black;
+    background-color: #212529;
     margin-left: 0.4rem;
     margin-right: 0.4rem;
     text-decoration:none;
@@ -498,18 +498,11 @@ body{
     height: 100%;
   }
 
-  .seat_taken_msg{
-    width: 80%;
-    height: 10rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    background-color: red;
-    transition: 0.3s ease-in-out;
-    opacity: 0.8;
-    border-radius: 5px;
-  }
+.row .disabled_seat{
+  background-color: red;
+  opacity: 0.6;
+  pointer-events: none
+}
 /* RESERVATION TICKET DETIALS */
 
 .ticket-list {
