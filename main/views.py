@@ -45,10 +45,34 @@ class APIFetcher:
     def __str__(self):
         return f'API URL: {self.api_url} | ENDPOINT: {self.endpoint}'
 
-#PAGE TO CONFIRM RESERVATION DETAILS (ALSO CAN DELETE / BOOK)
+#PAGE TO CONFIRM RESERVATION DETAILS BY USER
 class ReservationDetailsPage(View):
-    pass
+    def get(self,request,ticket_id):
+        ticket = Ticket.objects.get(id=ticket_id)
+        context = {'ticket':ticket}
+        return render(request,'main/reservation_details.html',context)
+    
+    def post(self,request,ticket_id):
+        if request.method == 'POST':
+            ticket = Ticket.objects.get(id=ticket_id)
+            if 'confirm_reservation' in request.POST:
+                message = f'Hello {ticket.firstname} {ticket.lastname} this is your ticket for a {ticket.movie.title}\n Seat number {ticket.seat.seat_number} row {ticket.seat.row_number} in room number {ticket.movie.room.number}'
+                return self.mail_sending(message,ticket.email,'home_page')
+            if 'cancel_reservation' in request.POST:
+                ticket.delete()
+                return redirect('home_page')
 
+            
+    @staticmethod
+    def mail_sending(message,mail,success_url):
+        send_mail(
+            "Cinema ticket details",
+            message,
+            'radoslawkusiak12@gmail.com',
+            [mail],
+            fail_silently=True,
+            )
+        return redirect(success_url)
 #ADMIN PANEL RESERVATION PAGE FOR A SINGLE MOVIE
 class AdminMoviePanel(View):
     pass
@@ -61,7 +85,9 @@ class MovieRoom(View):
         context = {'movie':movie,'range':range(1,7),'room':room}
         return render(request,'main/movie_seat_reservation.html',context)
     
-    def get_room(self):
+    # Getting room 6x6 method
+    @staticmethod
+    def get_room():
         room = []
         for row in range(1, 7):
             row_seats = []
@@ -69,7 +95,8 @@ class MovieRoom(View):
                 row_seats.append([row,seat])
             room.append(row_seats)
         return room
-
+    
+    # Using method get_room() to take room and then changing taken seats index for 0 
     def get_taken_seats(self, movie_id):
         movie = Movie.objects.get(id=movie_id)
         room = self.get_room()
@@ -91,7 +118,7 @@ class ReservationPage(FormValidation,View):
     
     def post(self,request,movie_id,seat_num,row_num):
         form = TicketReservation(request.POST)
-        return self.form_validation(form,'home_page','Something went wrong, Try again later...',
+        return self.form_validation(form,'reservation_details_page','Something went wrong, Try again later...',
                                     'Your reservation has been created...',movie_id,seat_num,row_num)
 
     def form_validation(self, form, success_url, error_msg, success_msg,movie_id,seat_num,row_num):
@@ -104,7 +131,7 @@ class ReservationPage(FormValidation,View):
             ticket.ticket_price = self.get_status_price(ticket.status,movie.ticket_price)
             ticket.save()
             messages.success(self.request,success_msg)
-            return redirect(success_url)
+            return redirect(success_url,ticket.id)
         else:
             messages.error(self.request,error_msg)
 
@@ -169,7 +196,7 @@ class MovieCreator(FormValidation,View):
             if self.get_room_status(form_data['room'],form_data['time']):
                 messages.error(self.request,error_msg)
                 return redirect(error_url,pk)
-            else:
+            else: # IF ROOM IS NOT TAKEN AT SAME TIME WE INPUT IN FORM WE CREATING OBJECT
                 poster = movie["poster_path"]
                 Movie.objects.create(
                     title = movie['original_title'],
@@ -190,7 +217,6 @@ class MovieCreator(FormValidation,View):
                     
 # PAGE WITH MOVIE LIST FROM API
 class MovieListAPI(View):
-
     def get(self,request):
         context = {'movies':self.get_api_data(request)}
         return render(request,'main/movies_list_api.html',context)
@@ -301,6 +327,7 @@ class RegisterRequest(FormValidation,View):
         form = NewUserForm(request.POST)
         return self.form_validation(form,'login_page','Try again later...','Registration successful')
 
+    # FORM VALIDATION FOR REGISTER PAGE
     def form_validation(self, form, success_url, error_msg, success_msg):
         if form.is_valid():
             user = form.save()
@@ -320,7 +347,8 @@ class LoginRequest(FormValidation,View):
     def post(self,request):
         form = AuthenticationForm(request,data=request.POST)
         return self.form_validation(form,'home_page','Try again later...','Login successfull')
-
+    
+    #FORM VALIDATION FOR LOGIN PAGE
     def form_validation(self, form, success_url, error_msg, success_msg):
         if form.is_valid():
             username = form.cleaned_data.get('username')
