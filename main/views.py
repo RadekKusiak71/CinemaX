@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from datetime import date,timedelta,datetime
 
-from .forms import NewUserForm, MovieCreationForm
+from .forms import NewUserForm, MovieCreationForm, TicketReservation
 from .models import UserProfile,Room,Movie,Seat,Ticket
 
 #GLOBAL VARIABLES
@@ -44,6 +44,80 @@ class APIFetcher:
 
     def __str__(self):
         return f'API URL: {self.api_url} | ENDPOINT: {self.endpoint}'
+
+#PAGE TO CONFIRM RESERVATION DETAILS (ALSO CAN DELETE / BOOK)
+class ReservationDetailsPage():
+    pass
+
+#ADMIN PANEL RESERVATION PAGE FOR A SINGLE MOVIE
+class AdminMoviePanel():
+    pass
+
+#SEAT RESERVATION
+class MovieRoom(View):
+    def get(self,request,movie_id):
+        movie = Movie.objects.get(id = movie_id)
+        room = self.get_taken_seats(movie_id)
+        print(room)
+        context = {'movie':movie,'range':range(1,7),'room':room}
+        return render(request,'main/movie_seat_reservation.html',context)
+    
+    def get_room(self):
+        room = []
+        for row in range(1, 7):
+            row_seats = []
+            for seat in range(1, 7):
+                row_seats.append([row,seat])
+            room.append(row_seats)
+        return room
+
+    def get_taken_seats(self, movie_id):
+        movie = Movie.objects.get(id=movie_id)
+        room = self.get_room()
+        seats = Seat.objects.filter(movie=movie)
+        if seats:
+            for taken_seat in seats:
+                room[taken_seat.row_number - 1][taken_seat.seat_number - 1] = 0
+        return room
+    
+    
+#PAGE TO TYPE IN RESERVATION DATA
+class ReservationPage(FormValidation,View):
+    def get(self,request,seat_num,row_num,movie_id):
+        movie = Movie.objects.get(id=movie_id)
+
+        form =TicketReservation()
+        context = {'movie':movie,'seat_num':seat_num,'row_num':row_num,'Reservation_form':form}
+        return render(request,'main/reservation_page.html',context)
+    
+    def post(self,request,movie_id,seat_num,row_num):
+        form = TicketReservation(request.POST)
+        return self.form_validation(form,'home_page','Something went wrong, Try again later...',
+                                    'Your reservation has been created...',movie_id,seat_num,row_num)
+
+    def form_validation(self, form, success_url, error_msg, success_msg,movie_id,seat_num,row_num):
+        if form.is_valid():
+            movie = Movie.objects.get(id=movie_id)
+            seat = Seat.objects.create(movie=movie,seat_number=seat_num,row_number=row_num,is_taken=True)
+            ticket = form.save(commit=False)
+            ticket.seat = seat
+            ticket.movie = movie
+            ticket.ticket_price = self.get_status_price(ticket.status,movie.ticket_price)
+            ticket.save()
+            messages.success(self.request,success_msg)
+            return redirect(success_url)
+        else:
+            messages.error(self.request,error_msg)
+
+    def get_status_price(self,status,price):
+        if status == 'ST':
+            price *= 0.37
+        elif status == 'JR':
+            price *= 0.5
+        elif status == 'SR':
+            price *= 0.6
+        return price
+        
 
 # MOVIE CREATOR PAGE 
 class MovieCreator(FormValidation,View):
@@ -87,7 +161,7 @@ class MovieCreator(FormValidation,View):
 
         return form_dict
     
-    #Custom from_validation
+    #Custom form_validation
     def form_validation(self, form, success_url, error_url,error_msg, success_msg,pk):
         if form.is_valid():
             form_data = self.get_form_dict(form)
@@ -149,10 +223,9 @@ class MovieListAPI(View):
         elif 'last_page' in request.GET:
             page = self.get_previous_page(page)
         
-        
+        #Fetching data
         api_fetch = APIFetcher('https://api.themoviedb.org/3',f'/movie/popular?api_key=fa16995ba428cf9d86c0d548254c7ffe&page={page}')
         movies_data = api_fetch.fetch_data()
-        print(api_fetch)
 
         if movies_data:
             movies = movies_data['results']
@@ -184,6 +257,13 @@ class MoviesCreated(View):
 
         context = {'movies': movies, 'today': MoviesCreated.date_today}
         return render(request, 'main/movies_created.html', context)
+    
+    #DELETING MOVIE
+    @method_decorator(staff_member_required)
+    def post (self, request):
+        movie_id = request.POST.get('movie_id')
+        Movie.objects.filter(id=int(movie_id)).delete()
+        return redirect('movies_page')
 
     #DATE CHANGING METHODS
     def get_next_day(self):
@@ -196,8 +276,6 @@ class MoviesCreated(View):
     def get_date(self):
         MoviesCreated.date_today = datetime.strptime(self.request.GET.get('search_date'), '%Y-%m-%d').date()
     
-    def post_delete_movie(self,movie_id):
-        pass
 
 #HOME PAGE RENDERING
 class HomePage(View):
