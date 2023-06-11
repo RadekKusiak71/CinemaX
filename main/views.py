@@ -46,11 +46,11 @@ class APIFetcher:
         return f'API URL: {self.api_url} | ENDPOINT: {self.endpoint}'
 
 #PAGE TO CONFIRM RESERVATION DETAILS (ALSO CAN DELETE / BOOK)
-class ReservationDetailsPage():
+class ReservationDetailsPage(View):
     pass
 
 #ADMIN PANEL RESERVATION PAGE FOR A SINGLE MOVIE
-class AdminMoviePanel():
+class AdminMoviePanel(View):
     pass
 
 #SEAT RESERVATION
@@ -109,7 +109,8 @@ class ReservationPage(FormValidation,View):
         else:
             messages.error(self.request,error_msg)
 
-    def get_status_price(self,status,price):
+    @staticmethod
+    def get_status_price(status,price):
         if status == 'ST':
             price *= 0.37
         elif status == 'JR':
@@ -133,7 +134,7 @@ class MovieCreator(FormValidation,View):
         return self.form_validation(form,'home_page','movie_creator_page','Room is taken already...','You have successfuly created a movie',pk)
     
     #Method to fetch api data
-    def get_api_data(self, pk, api_key):
+    def get_api_data(self,pk, api_key):
         api_fetch = APIFetcher('https://api.themoviedb.org/3', f'/movie/{pk}?api_key={api_key}')
         movie = api_fetch.fetch_data()        
         return movie
@@ -196,18 +197,21 @@ class MovieListAPI(View):
         return render(request,'main/movies_list_api.html',context)
     
     #Site pagination handling next and previous site
-    def get_next_page(self,page):
+    @staticmethod
+    def get_next_page(page):
         page += 1
         return page
-
-    def get_previous_page(self,page):
+    
+    @staticmethod
+    def get_previous_page(page):
         page -= 1
         if page == 0:
             page = 1
         return page
     
     # Method handling search input for movie searching in api
-    def get_query_api(self, request):
+    @staticmethod
+    def get_query_api(request):
         query = request.GET.get('query')
         api_fetch = APIFetcher('https://api.themoviedb.org/3', f'/search/movie?api_key=fa16995ba428cf9d86c0d548254c7ffe&query={query}')
         movies_data = api_fetch.fetch_data()
@@ -266,10 +270,12 @@ class MoviesCreated(View):
         return redirect('movies_page')
 
     #DATE CHANGING METHODS
-    def get_next_day(self):
+    @staticmethod
+    def get_next_day():
         MoviesCreated.date_today += timedelta(days=1)
 
-    def get_previous_day(self):
+    @staticmethod
+    def get_previous_day():
         MoviesCreated.date_today -= timedelta(days=1)
 
     #HANDLING SEARCH BY CALENDAR ALSO CHANGING FORMAT OF DATE FOR YEAR - MOTH - DAY
