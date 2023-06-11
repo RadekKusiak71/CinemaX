@@ -25,7 +25,7 @@ date_today = date.today()
 #ABSTRACT CLASS WITH FORM VALIDATION
 class FormValidation(ABC):
     @abstractmethod
-    def form_validation(self,form,success_url,error_msg,success_msg):
+    def form_validation(self):
         pass
 
 #CLASS FOR HANDLING FETCHING DATA FROM API Tmbd
@@ -58,7 +58,6 @@ class MovieRoom(View):
     def get(self,request,movie_id):
         movie = Movie.objects.get(id = movie_id)
         room = self.get_taken_seats(movie_id)
-        print(room)
         context = {'movie':movie,'range':range(1,7),'room':room}
         return render(request,'main/movie_seat_reservation.html',context)
     
