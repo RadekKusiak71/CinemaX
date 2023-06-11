@@ -21,7 +21,7 @@
                             <div class="img-home-container">
                                 <img src="https://image.tmdb.org/t/p/w500/{{ movie.image }}" alt="{{ movie.title }}" class='home-images'>
                                 <h3 style="text-align: center;">{{movie.date}} - {{ movie.time|time:"H:i" }}</h3>
-                                <a href="" class="btn btn-home btn-outline-primary" style="margin-top: 5px;width: 16rem;">Book</a>
+                                <a href="{% url 'movie_room_page' movie.id %}" class="btn btn-home btn-outline-primary" style="margin-top: 5px;width: 16rem;">Book</a>
                             </div>
                         </div>
                 {% endfor %}
