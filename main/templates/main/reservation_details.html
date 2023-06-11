@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Cinema Reservation Details {% endblock %}
+
+{% block content %}
+<div class="ticket-list">
+  <div class="ticket-item">
+    <h1 class="ticket-title">TICKET DATA</h1>
+    <div class="ticket-details">
+      <h3 class="ticket-info">Movie: {{ ticket.movie.title }}</h3>
+      <h3 class="ticket-info">Date: {{ticket.movie.date}} {{ ticket.movie.time|time:"H:i" }}</h3>
+      <h3 class="ticket-info">Buyer: {{ ticket.firstname }} {{ ticket.lastname }}</h3>
+      <h3 class="ticket-info">Email: {{ ticket.email }}</h3>
+      <h3 class="ticket-info">Phone: {{ ticket.phone }}</h3>
+      <h3 class="ticket-info">Student: {{ticket.status}}</h3>
+      <h3 class="ticket-info">Price: {{ ticket.ticket_price }}$</h3>
+    </div>
+
+    <div class="ticket-actions">
+       <!-- FORM FOR CONFIRM RESERVATION DATA OR CANCEL IT -->
+       <form action="" method="POST">
+        {% csrf_token %}
+          <button type='submit' name="confirm_reservation" class="btn btn-outline-success" style="width: 50%; margin-top: 1rem;">Book</button>
+          <button type='submit' name="cancel_reservation" class="btn btn-outline-danger" style="width: 50%; margin-top: 1rem;">Cancel</button>
+       </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
