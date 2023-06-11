@@ -45,10 +45,9 @@ class Seat(models.Model):
     row_number = models.PositiveIntegerField(validators=[MaxValueValidator(8), MinValueValidator(1)])
     is_taken = models.BooleanField(default=False)
     movie = models.ForeignKey('Movie',on_delete=models.CASCADE)
-    room = models.ForeignKey('Room',on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f'Seat {self.seat_number} \ Row {self.row} \ Movie ID {self.movie.id}'
+        return f'Seat {self.seat_number} \ Row {self.row_number} \ Movie ID {self.movie.id}'
     
 class Ticket(models.Model):
     class PersonStatus(models.TextChoices):
@@ -62,6 +61,10 @@ class Ticket(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=9)
     status = models.CharField(max_length=7,choices=PersonStatus.choices,default=PersonStatus.NORMAL)
-
+    movie = models.ForeignKey('Movie',on_delete=models.CASCADE,default=None)
+    seat = models.ForeignKey('Seat',on_delete=models.CASCADE,default=None)
+    ticket_price = models.FloatField(default=20.00)
+    user_profile = models.ForeignKey(UserProfile,on_delete=models.CASCADE,null=True)
+    
     def __str__(self) -> str:
         return f'Reservation for {self.firstname} {self.lastname} - Status: {self.status}'
