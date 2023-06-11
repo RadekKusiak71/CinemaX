@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="reservation-container">
+    <h1 class="reservation-heading">Reservation Details</h1>
+    <hr class="reservation-divider">
+    <h2 class="reservation-movie">Movie: {{ movie.title }}</h2>
+    <hr class="reservation-divider">
+    <h2 class="reservation-seat">Date: {{movie.date}} {{ movie.time|time:"H:i" }}</h2>
+    <hr class="reservation-divider">
+    <h2 class="reservation-seat">Seat: seat number {{ seat_num }} in row {{ row_num }}</h2>
+    <hr class="reservation-divider">
+    <form method="post">
+      <!-- RESERVATION FORM -->
+    {% csrf_token %}
+      {{ Reservation_form|crispy }}
+      <button type="submit" class="reservation-btn btn btn-dark">Reserve Seat</button>
+    </form>
+  </div>
+{% endblock %}

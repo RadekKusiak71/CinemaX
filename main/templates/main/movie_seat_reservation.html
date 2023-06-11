@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% block title %} Cinema Room Reservation {% endblock %}
+
+{% block content %}
+<div class="cinema-room">
+    <h1>Movie: {{movie.title}}</h1>
+    <h3>Date: {{movie.date}}</h3>
+    <h3>Date: {{ movie.time|time:"H:i" }}</h3>
+    <h3>Room number: {{movie.room.number}}</h3>
+    <hr>
+    <!-- WIADOMOSC JEZELI KRZESEŁKO JEST JUZ ZAJĘTE -->
+        {% for row in room %}
+        <div class="row">
+            <h4>ROW {{forloop.counter}}</h4>
+            {% for seat in row %}
+                {% if seat == 0 %}
+                    <a href="" class="seat disabled_seat">{{ forloop.counter}}</a>
+                {% else %}
+                    <a href="{% url 'reservation_page' movie_id=movie.id seat_num=forloop.counter row_num=forloop.parentloop.counter%}" class="seat">{{ forloop.counter}}</a>
+                {%endif%}
+            {% endfor %}
+        </div>
+        <hr>
+        {%endfor%}
+
+
+    {% comment %} <!-- WYŚWIETLANIE KRZESEŁEK  -->
+    {% for row_number in range %}
+        <div class="row">
+            <h4>ROW {{ row_number }}</h4>
+            {% for seat in range %}
+                <a href="" class="seat">{{seat}}</a>
+            {% endfor %}
+        </div>
+        <hr>
+    {% endfor %} {% endcomment %}
+
+
+</div>
+{% endblock %}
