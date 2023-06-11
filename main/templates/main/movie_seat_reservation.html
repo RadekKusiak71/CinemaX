@@ -5,36 +5,21 @@
 <div class="cinema-room">
     <h1>Movie: {{movie.title}}</h1>
     <h3>Date: {{movie.date}}</h3>
-    <h3>Date: {{ movie.time|time:"H:i" }}</h3>
+    <h3>Time: {{ movie.time|time:"H:i" }}</h3>
     <h3>Room number: {{movie.room.number}}</h3>
     <hr>
-    <!-- WIADOMOSC JEZELI KRZESEŁKO JEST JUZ ZAJĘTE -->
-        {% for row in room %}
-        <div class="row">
-            <h4>ROW {{forloop.counter}}</h4>
-            {% for seat in row %}
-                {% if seat == 0 %}
-                    <a href="" class="seat disabled_seat">{{ forloop.counter}}</a>
-                {% else %}
-                    <a href="{% url 'reservation_page' movie_id=movie.id seat_num=forloop.counter row_num=forloop.parentloop.counter%}" class="seat">{{ forloop.counter}}</a>
-                {%endif%}
-            {% endfor %}
-        </div>
-        <hr>
-        {%endfor%}
+    <div class="cinema_screen"><p>Screen</p></div>
+    {% for row in room %}
+    <div class="row">
+      {% for seat in row %}
+        {% if seat == 0 %}
+          <a href="" class="seat disabled_seat">Seat:{{ forloop.counter}} Row:{{forloop.parentloop.counter}}</a>
+        {% else %}
+          <a href="{% url 'reservation_page' movie_id=movie.id seat_num=forloop.counter row_num=forloop.parentloop.counter%}" class="seat">Seat:{{ forloop.counter}} Row:{{forloop.parentloop.counter}}</a>
+        {%endif%}
+      {% endfor %}
+    </div>
+    {%endfor%}
+  </div>
+  {% endblock %}
 
-
-    {% comment %} <!-- WYŚWIETLANIE KRZESEŁEK  -->
-    {% for row_number in range %}
-        <div class="row">
-            <h4>ROW {{ row_number }}</h4>
-            {% for seat in range %}
-                <a href="" class="seat">{{seat}}</a>
-            {% endfor %}
-        </div>
-        <hr>
-    {% endfor %} {% endcomment %}
-
-
-</div>
-{% endblock %}

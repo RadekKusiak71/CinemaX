@@ -24,7 +24,6 @@ body{
 }
 
 
-/* HOME PAGE CSS */ 
 /* HOME PAGE CSS */
 .home-container {
   width: 100%;
@@ -68,7 +67,8 @@ body{
 }
 
 .lower-container-home {
-  width: 100%;
+  width: 80%;
+  margin: auto;
   min-height: 50vh;
   height: fit-content;
   display: flex;
@@ -248,7 +248,6 @@ body{
     padding: 15px;
     height: 5%;
 }
-/* ADMIN MOVIE PAGE */
 
 /* ADMIN MOVIE PAGE */
 .movie-admin-panel {
@@ -466,15 +465,25 @@ body{
 
 
   /* SEAT RESERVATION */
+  .cinema_screen{
+    width: 72%;
+    height: fit-content;
+    margin: auto;
+    background-color: rgb(176, 176, 176);
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+
   .row {
-    display: inline-block;
-    justify-content: space-evenly;
+    display: flex;
+    justify-content:center;
     align-items: center;
     text-align: center;
     width: 90%;
     height: fit-content;
     margin: auto;
-    margin: 1rem 3rem;
+    margin-top: 3rem;
   }
   .row h4{
     margin-bottom: 1rem;
@@ -482,15 +491,16 @@ body{
   }
   .row a {
     padding: 1%;
-    padding-left: 5%;
     background-color: #212529;
-    margin-left: 0.4rem;
-    margin-right: 0.4rem;
     text-decoration:none;
     color: white;
     text-align: center;
     border-radius: 20px;
     display: inline;
+    width: 6%;
+    height: 2%;
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
   
   .cinema-room {
@@ -509,6 +519,7 @@ body{
   display: flex;
   justify-content: center;
   height: 100vh;
+  height: fit-content;
 }
 
 .ticket-item {
@@ -543,8 +554,15 @@ body{
   justify-content: center;
   align-items: center;
 }
+.ticket-actions form{
+  width: 90%;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-.ticket-actions a {
+.ticket-actions button {
   display: inline-block;
   width: 50%;
   margin-top: 1rem;
@@ -557,15 +575,15 @@ body{
   text-decoration: none;
 }
 
-.ticket-actions a.btn-success {
+.ticket-actions button.btn-success {
   background-color: #28a745;
 }
 
-.ticket-actions a.btn-danger {
+.ticket-actions button.btn-danger {
   background-color: #dc3545;
 }
 
-.ticket-actions a:hover {
+.ticket-actions button:hover {
   opacity: 0.8;
 }
 
