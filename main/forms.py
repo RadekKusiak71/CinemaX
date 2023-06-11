@@ -32,3 +32,19 @@ class MovieCreationForm(ModelForm):
 			'ticket_price' : 'Enter ticket price',
 			'room' : 'Choose a room'
 		}
+
+class TicketReservation(ModelForm):
+
+	class Meta:
+		model = Ticket
+		fields = "__all__"
+		exclude = ('movie','user_profile','seat','ticket_price')
+
+		labels = {
+			'firstname': 'Firstname',
+			'lastname' : 'Lastname',
+			'email':'Email',
+			'phone':'Phone number',
+			'status':'Status',
+		}
+
