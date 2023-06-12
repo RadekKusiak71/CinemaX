@@ -12,4 +12,5 @@ urlpatterns = [
     path('movies/<int:movie_id>/',views.MovieRoom.as_view(),name='movie_room_page'),
     path('movies/<int:movie_id>/<int:seat_num>/<int:row_num>',views.ReservationPage.as_view(),name='reservation_page'),
     path('reservation/details/<int:ticket_id>/',views.ReservationDetailsPage.as_view(),name='reservation_details_page'),
+    path('movie/<int:movie_id>/reservations/',views.MovieReservationsAdmin.as_view(),name='movie_reservations_admin'),
 ]
