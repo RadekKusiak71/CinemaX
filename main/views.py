@@ -52,6 +52,7 @@ class ReservationDetailsPage(View):
         context = {'ticket':ticket}
         return render(request,'main/reservation_details.html',context)
     
+    # Method handling confirming and canceling user reservation
     def post(self,request,ticket_id):
         if request.method == 'POST':
             ticket = Ticket.objects.get(id=ticket_id)
@@ -62,7 +63,7 @@ class ReservationDetailsPage(View):
                 ticket.delete()
                 return redirect('home_page')
 
-            
+    # Mail sending method
     @staticmethod
     def mail_sending(message,mail,success_url):
         send_mail(
@@ -111,16 +112,17 @@ class MovieRoom(View):
 class ReservationPage(FormValidation,View):
     def get(self,request,seat_num,row_num,movie_id):
         movie = Movie.objects.get(id=movie_id)
-
         form =TicketReservation()
         context = {'movie':movie,'seat_num':seat_num,'row_num':row_num,'Reservation_form':form}
         return render(request,'main/reservation_page.html',context)
     
+    # Validating and saving reservation form
     def post(self,request,movie_id,seat_num,row_num):
         form = TicketReservation(request.POST)
         return self.form_validation(form,'reservation_details_page','Something went wrong, Try again later...',
                                     'Your reservation has been created...',movie_id,seat_num,row_num)
-
+    
+    # Form validating with ticket object creating
     def form_validation(self, form, success_url, error_msg, success_msg,movie_id,seat_num,row_num):
         if form.is_valid():
             movie = Movie.objects.get(id=movie_id)
@@ -134,14 +136,14 @@ class ReservationPage(FormValidation,View):
             return redirect(success_url,ticket.id)
         else:
             messages.error(self.request,error_msg)
-
+    # Method to return price
     @staticmethod
     def get_status_price(status,price):
-        if status == 'ST':
+        if status == 'Student':
             price *= 0.37
-        elif status == 'JR':
+        elif status == 'Junior':
             price *= 0.5
-        elif status == 'SR':
+        elif status == 'Senior':
             price *= 0.6
         return price
         
