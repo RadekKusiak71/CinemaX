@@ -35,7 +35,6 @@ class Movie(models.Model):
 
 class Room(models.Model):
     number = models.PositiveIntegerField(unique=True)
-    capacity = models.PositiveIntegerField(default=64)
 
     def __str__(self) -> str:
         return f'Room number {self.number}'

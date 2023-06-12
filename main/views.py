@@ -1,4 +1,4 @@
-from typing import Any
+
 import requests
 from abc import ABC ,abstractmethod
 
@@ -203,43 +203,6 @@ class MovieCreator(FormValidation,View):
         form = MovieCreationForm(request.POST)
         return self.form_validation(form,'home_page','movie_creator_page','Room is taken already...','You have successfuly created a movie',pk)
     
-#CREATED MOVIES PAGE
-class MoviesCreated(View):
-    date_today = datetime.now().date()
-
-    def get(self, request):
-        movies = Movie.objects.all()
-            
-        if 'last_day' in request.GET:
-            self.get_previous_day()
-        elif 'next_day' in request.GET:
-            self.get_next_day()
-        elif 'search_date' in request.GET:
-            self.get_date()
-
-        context = {'movies': movies, 'today': MoviesCreated.date_today}
-        return render(request, 'main/movies_created.html', context)
-
-    #DATE CHANGING METHODS
-    @staticmethod
-    def get_next_day():
-        MoviesCreated.date_today += timedelta(days=1)
-
-    @staticmethod
-    def get_previous_day():
-        MoviesCreated.date_today -= timedelta(days=1)
-
-    #HANDLING SEARCH BY CALENDAR ALSO CHANGING FORMAT OF DATE FOR YEAR - MOTH - DAY
-    def get_date(self):
-        MoviesCreated.date_today = datetime.strptime(self.request.GET.get('search_date'), '%Y-%m-%d').date()
-    
-    #DELETING MOVIE
-    @method_decorator(staff_member_required)
-    def post (self, request):
-        movie_id = request.POST.get('movie_id')
-        Movie.objects.filter(id=int(movie_id)).delete()
-        return redirect('movies_page')
-
     #Custom form_validation
     def form_validation(self, form, success_url, error_url,error_msg, success_msg,pk):
         if form.is_valid():
@@ -266,6 +229,53 @@ class MoviesCreated(View):
                 return redirect(success_url)
         else:
             messages.error(self.request,error_msg)
+#CREATED MOVIES PAGE
+class MoviesCreated(View):
+    date_today = datetime.now().date()
+
+    def get(self, request):
+        movies = Movie.objects.all()
+            
+        if 'last_day' in request.GET:
+            self.get_previous_day()
+        elif 'next_day' in request.GET:
+            self.get_next_day()
+        elif 'search_date' in request.GET:
+            self.get_date()
+
+        context = {'movies': movies, 'today': MoviesCreated.date_today}
+        return render(request, 'main/movies_created.html', context)
+
+    #DATE CHANGING METHODS
+    @staticmethod
+    def get_next_day():
+        MoviesCreated.date_today += timedelta(days=1)
+
+    @staticmethod
+    def get_previous_day():
+        if MoviesCreated.date_today == datetime.now().date():
+            pass
+        else:
+            MoviesCreated.date_today -= timedelta(days=1)
+
+
+    #HANDLING SEARCH BY CALENDAR ALSO CHANGING FORMAT OF DATE FOR YEAR - MOTH - DAY
+    def get_date(self):
+        date = self.request.GET.get('search_date')
+        current_date = datetime.now().date()
+        
+        if date is None or date < str(current_date):
+            date = str(current_date)
+
+        MoviesCreated.date_today = datetime.strptime(date, '%Y-%m-%d').date()
+
+    
+    #DELETING MOVIE
+    @method_decorator(staff_member_required)
+    def post (self, request):
+        movie_id = request.POST.get('movie_id')
+        Movie.objects.filter(id=int(movie_id)).delete()
+        return redirect('movies_page')
 
 #SEAT RESERVATION
 class MovieRoom(View):
