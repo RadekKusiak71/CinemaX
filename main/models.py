@@ -51,10 +51,10 @@ class Seat(models.Model):
     
 class Ticket(models.Model):
     class PersonStatus(models.TextChoices):
-        STUDENT = 'ST',_('Student')
-        JUNIOR = 'JR',_('Junior')
-        SENIOR = 'SR',_('Senior')
-        NORMAL = 'NR',_('Normal')
+        STUDENT = 'Student',_('Student')
+        JUNIOR = 'Junior',_('Junior')
+        SENIOR = 'Senior',_('Senior')
+        NORMAL = 'Normal',_('Normal')
 
     firstname = models.CharField(max_length=32)
     lastname = models.CharField(max_length=32)
