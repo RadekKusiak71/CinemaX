@@ -42,6 +42,7 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
 7. Konto admina:
    - Login : admin
    - Hasło : 123
+   
 8. W przeglądarce otwórz stronę 127.0.0.1:8000.
 
 ## Użyte API:
