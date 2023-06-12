@@ -13,20 +13,39 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
 
 ## Instalacja:
 
-1. Pobierz repozytorium.
-2. Utwórz wirtualne środowisko wewnątrz projektu.
-3. Zainstaluj wymagane pakiety z pliku requirements.txt. W folderze z aktywowanym wirtualnym środowiskiem wykonaj polecenie:
+1. Zklonuj repozytorium :
+   ```
+   git init
+   git clone https://github.com/RadekKusiak71/CinemaX.git
+   ```
+2. Przejdz do folderu z projektem:
+   ```
+   cd 'ścieżka'/CinemaSite
+   ```
+3. Zmień branch na master:
+   ```
+   git checkout master
+   ```
+4. Utwórz wirtualne środowisko wewnątrz projektu i odpal je.
+   ```
+   Przykład:
+   virtualenv 'venv'
+   ścieżka\venv\Scripts\activate
+   ```
+6. Zainstaluj wymagane pakiety z pliku requirements.txt. W folderze z aktywowanym wirtualnym środowiskiem wykonaj polecenie:
    ```
    pip install -r requirements.txt
    ```
-4. Uruchom serwer. W folderze z serwerem i aktywowanym wirtualnym środowiskiem wykonaj polecenie:
+6. Uruchom serwer. W folderze z serwerem i aktywowanym wirtualnym środowiskiem wykonaj polecenie:
    ```
    py manage.py runserver
    ```
-5. W przeglądarce otwórz stronę localhost:8000.
+7. Konto admina:
+   - Login : admin
+   - Hasło : 123
+8. W przeglądarce otwórz stronę 127.0.0.1:8000.
 
 ## Użyte API:
-
 - [The Movie Database](https://www.themoviedb.org/)
 
 ## Autorzy:
