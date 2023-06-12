@@ -12,7 +12,7 @@
         <p>Duration: {{movie.duration}} minutes</p>
         <p>Price without discount: {{movie.ticket_price}}</p>
         <form action="" method="POST">
-            <!-- Formularz do wysyłania zbiorowych maili o przypomnieniu o rezerwacji -->
+            <!-- Form for sending mails for all reservations -->
             {% csrf_token %}
             <button type="submit" class="btn btn-primary" name='reservation_mail_broadcast'>Send notifications to everyone</button>
         </form>
@@ -21,9 +21,8 @@
     <div class="ticket-details">
         <h1>Tickets</h1>
         <hr>
-        <!-- WARUNEK DO SPRAWDZANIA CZY SĄ JAKIEKOLWIEK REZERWACJE -->
+        <!-- STATEMENT FOR CHECKING IF THERE ANY RESERVATIONS -->
         {% if tickets %}
-            <!-- ZA POMOCĄ PĘTLI WYŚWIETLANIE SZCZEGÓŁÓW REZEWACJI -->
             {% for ticket in tickets %}
             <div class="reservation-details-admin">
                 <div class="reservation-user-admin">

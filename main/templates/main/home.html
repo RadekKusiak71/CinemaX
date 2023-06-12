@@ -15,7 +15,7 @@
         <div class="lower-container-home">
             <div class="scroll1"><span>&larr;</span></div>
             <div class="avaiable-movies-home">
-                <!-- WYŚWIETLANIE DOSTEPNYCH SEANSÓW W DOLNYM DIVIE TYLKO TYCH GDZIE ZOSTAŁO CHOCIAŻ JEDNO MIEJSCE -->
+                <!-- Displaying movies -->
                 {% for movie in movies %}
                         <div class="movie-item">
                             <div class="img-home-container">
@@ -41,14 +41,14 @@
         scrollLeftDiv.addEventListener('click', scrollLeft);
         scrollRightDiv.addEventListener('click', scrollRight);
 
-        // Funkcja do scrollowania w lewo
+
         function scrollLeft() {
             movieContainer.scrollBy({
                 left: -scrollAmount,
                 behavior: 'smooth',
             });
         }
-        // Funkcja do scrollowania w prawo
+
         function scrollRight() {
             movieContainer.scrollBy({
                 left: scrollAmount,

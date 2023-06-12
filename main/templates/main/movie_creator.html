@@ -30,7 +30,7 @@
 </div>
 <hr>
 <div class="creation_movie_form">
-    <!-- WIADOMOŚĆ INFORMUJĄCA GDY W DANYM DNIU O DANEJ GODZINIE I W DANYM POKOJU JEST JUZ FILM -->
+    <!-- MESSAGE DISPLAYING IF THERE A MOVIE IN SAME TIME IN SAME ROOM -->
     {% if messages %}
     <div class="seat_taken_msg">
         {% for message in messages %}
@@ -39,7 +39,6 @@
     </div>
     {% endif %}
     <h1>CREATE MOVIE</h1>
-    <!-- FORMULARZ TWORZENIA SEANSU -->
     <form action="" method="POST" class="movie_form">
         {% csrf_token %}
         {{movie_creation_form|crispy}}

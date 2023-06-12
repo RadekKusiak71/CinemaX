@@ -14,13 +14,13 @@
         </div>
     </div>
 </form>
-<!-- PAGINACJA STRON Z FILMAMI Z API -->
+<!-- PAGINATION -->
 <form method="GET">
     <button type="submit" name="last_page" class="btn btn-outline-dark">Previous page</button>
     <button type="submit" name="next_page" class="btn btn-outline-dark">Next page</button>
 </form>
 <hr>
-<!-- WYŚWIETLANIE FILMÓW -->
+<!-- DISPLAING MOVIES -->
 {% for movie in movies %}
     <div class="movie-admin-panel">
     {% if movie.backdrop_path %}
@@ -39,7 +39,7 @@
         <p>{{movie.overview}}</p>
         <hr>
         <a href="https://www.themoviedb.org/movie/{{movie.id}}" target="_blank" class="btn btn-outline-dark" style="margin-bottom:1rem;">All movie details</a><br>
-        <!-- DLA ADMINSTRATORA FUNKCJA PRZENOSZĄCA DO STRONY Z TWORZENIEM SEANSU -->
+        <!-- ONLY FOR ADMINS -->
         {% if user.is_staff  %}
         <a href="{% url 'movie_creator_page' movie.id %}" class="btn btn-outline-dark">Go to movie creation</a>
         {% endif %}

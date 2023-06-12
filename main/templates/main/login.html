@@ -8,7 +8,6 @@
 <div class="login_form_container">
     <h1 style="text-align:center">LOGIN TO YOUR ACCOUNT</h1>
     <form action="" method="POST" class="login">
-        <!-- PODANIE CSRF_TOKENA I ZAŁADOWANIE FORMULARZA  -->
         {% csrf_token %}
         {{login_form|crispy}}
         <div class="login_button_div">
