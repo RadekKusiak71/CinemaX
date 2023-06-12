@@ -199,6 +199,7 @@ class MovieCreator(FormValidation,View):
         return form_dict
     
     # Form handling
+    @method_decorator(staff_member_required)
     def post(self,request,pk):
         form = MovieCreationForm(request.POST)
         return self.form_validation(form,'home_page','movie_creator_page','Room is taken already...','You have successfuly created a movie',pk)
@@ -269,7 +270,6 @@ class MoviesCreated(View):
 
         MoviesCreated.date_today = datetime.strptime(date, '%Y-%m-%d').date()
 
-    
     #DELETING MOVIE
     @method_decorator(staff_member_required)
     def post (self, request):
@@ -374,3 +374,54 @@ class ReservationDetailsPage(View):
             if 'cancel_reservation' in request.POST:
                 ticket.delete()
                 return redirect('home_page')
+              
+class MovieReservationsAdmin(ReservationPage,View):
+
+    def get(self,request,movie_id):
+        movie = Movie.objects.get(id=movie_id)
+        tickets = Ticket.objects.filter(movie=movie)
+        context = {'movie':movie,'tickets':tickets}
+        return render(request,'main/movie_reservations.html',context)
+    
+    @staticmethod
+    def mail_sending(title,message,mail,success_url,movie_id):
+        send_mail(
+            title,
+            message,
+            'radoslawkusiak12@gmail.com',
+            [mail],
+            fail_silently=True,
+            )
+        return redirect(success_url,movie_id)
+    
+    @method_decorator(staff_member_required)   
+    def post(self,request,movie_id):
+        ticket = Ticket.objects.get(movie = Movie.objects.get(id=movie_id))
+        if request.method == 'POST':
+            if 'reservation_mail_broadcast' in request.POST:
+                try:
+                    message = f'You ticket for movie: {ticket.movie.title} is waiting for confirmation.'
+                    return self.mail_sending(
+                        'Cinema notification',
+                        message,
+                        ticket.email,
+                        'movie_reservations_admin',
+                        ticket.movie.id
+                        )
+                except ticket.DoesNotExist:
+                    pass
+            
+            if 'reservation_cancel_admin' in request.POST:
+                try:
+                    ticket.delete()
+                    return redirect('movie_reservations_admin',ticket.movie.id)
+                except ticket.DoesNotExist:
+                    pass
+
+
+            
+
+
+# # <!-- PRZYCISKI DO USUWANIA I ZMIENIANIA STATUSU REZERWACJI -->
+#                     <!-- <a href="{% url 'movie-reservations-page-delete' movie.id ticket.id %}" class="btn btn-danger">Cancel</a>
+#                     <a href="{% url 'reservation-status-change' ticket.id movie.id %}" class="btn btn-danger">Status change</a> -->
