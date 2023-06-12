@@ -1,5 +1,3 @@
-Oto przykład ładnego formatowania tekstu w pliku README:
-
 # CinemaX
 
 Jest to aplikacja napisana w Django do zarządzania kinem.
@@ -31,5 +29,3 @@ Jest to aplikacja napisana w Django do zarządzania kinem.
 ## Autorzy:
 - Radosław Kusiak
 - Szymon Drzycimski
-
-Pamiętaj, że to tylko przykład formatowania. Możesz dostosować styl, czcionki, nagłówki i inne elementy według własnych preferencji, aby stworzyć czytelny i atrakcyjny wygląd dla swojego pliku README.
