@@ -20,7 +20,7 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
    ```
 2. Przejdz do folderu z projektem:
    ```
-   cd 'ścieżka'/CinemaSite
+   cd .../CinemaSite
    ```
 3. Zmień branch na master:
    ```
@@ -28,9 +28,8 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
    ```
 4. Utwórz wirtualne środowisko wewnątrz projektu i odpal je.
    ```
-   Przykład:
    virtualenv 'venv'
-   ścieżka\venv\Scripts\activate
+   ...\venv\Scripts\activate
    ```
 6. Zainstaluj wymagane pakiety z pliku requirements.txt. W folderze z aktywowanym wirtualnym środowiskiem wykonaj polecenie:
    ```
