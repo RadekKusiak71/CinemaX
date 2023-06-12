@@ -32,7 +32,7 @@
                             <a href="{% url 'movie_room_page' movie.id %}" class="btn btn-outline-dark">Book</a>
                             <!-- FUNKCJA DOSTĘPNA TYLKO DLA ADMINISTRATORÓW ( USUWANIE SEANSÓW + PRZECHODZENIE DO STRONY ZE WSZYSTKIMI REZERWACJAMI) -->
                             {% if user.is_staff %}
-                                <a href="" class="btn btn-outline-secondary">Reservations</a> 
+                                <a href="{% url 'movie_reservations_admin' movie.id%}" class="btn btn-outline-secondary">Reservations</a> 
 
                                 <form method='POST'>
                                     {% csrf_token %}
