@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Cinema {{movie.title}}{% endblock %}
+
+{% block content %}
+<div class="reservation-admin-details">
+    <div class="movie-details">
+        <h1>{{movie.title}}</h1>
+        <p>Date: {{movie.date}}</p>
+        <p>Time: {{ movie.time|time:"H:i" }}</p>
+        <p>Room: {{movie.room.number}}</p>
+        <p>Duration: {{movie.duration}} minutes</p>
+        <p>Price without discount: {{movie.ticket_price}}</p>
+        <form action="" method="POST">
+            <!-- Formularz do wysyłania zbiorowych maili o przypomnieniu o rezerwacji -->
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary" name='reservation_mail_broadcast'>Send notifications to everyone</button>
+        </form>
+    </div>
+
+    <div class="ticket-details">
+        <h1>Tickets</h1>
+        <hr>
+        <!-- WARUNEK DO SPRAWDZANIA CZY SĄ JAKIEKOLWIEK REZERWACJE -->
+        {% if tickets %}
+            <!-- ZA POMOCĄ PĘTLI WYŚWIETLANIE SZCZEGÓŁÓW REZEWACJI -->
+            {% for ticket in tickets %}
+            <div class="reservation-details-admin">
+                <div class="reservation-user-admin">
+                    <p>Firstname and Lastname: {{ticket.firstname}} {{ticket.lastname}}</p>
+                    <p>Email: {{ticket.email}}</p>
+                    <p>Phone number: {{ticket.phone}}</p>
+                    <p>Ticket price: {{ticket.ticket_price}} $</p>
+                </div>
+                <div class="cancel-button-admin">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <button name='reservation_cancel_admin' class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+        {% else %}
+        <h2>There are 0 reservations</h2>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
