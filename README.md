@@ -66,6 +66,77 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
 - reservation_details.html - widok klasy ReservationDetailsPage.
 - reservation_page.html - widok klasy ReservationPage.
 
+
+Dokumentacja modelu bazy danych dla aplikacji CinemaX
+===
+
+Poniżej znajduje się dokumentacja modelu bazy danych dla aplikacji CinemaX. Opisane są wszystkie modele, pola i relacje między nimi.
+
+### Model `UserProfile`
+
+Model `UserProfile` reprezentuje profil użytkownika. Jest powiązany z modelem wbudowanym `User` z modułu `django.contrib.auth.models`. Zawiera pole `user`, które jest kluczem obcym do modelu `User`, oraz pole `phone_number` przechowujące numer telefonu użytkownika.
+
+#### Pola modelu `UserProfile`:
+
+- `user` (ForeignKey do modelu `User`): Klucz obcy do modelu `User`, reprezentujący użytkownika powiązanego z profilem.
+- `phone_number` (CharField): Numer telefonu użytkownika, o maksymalnej długości 9 znaków (null=True).
+
+### Model `Movie`
+
+Model `Movie` reprezentuje film. Zawiera informacje takie jak tytuł, data i godzina projekcji, obrazek, czas trwania, język, czy film jest dla dorosłych, opis, popularność, cena biletu i sala kinowa, w której odbywa się projekcja.
+
+#### Pola modelu `Movie`:
+
+- `title` (CharField): Tytuł filmu, o maksymalnej długości 100 znaków.
+- `date` (DateField): Data projekcji filmu.
+- `time` (TimeField): Godzina projekcji filmu.
+- `image` (URLField): URL do obrazka związanego z filmem.
+- `duration` (PositiveIntegerField): Czas trwania filmu w minutach.
+- `language` (CharField): Język filmu, wybierany spośród dostępnych opcji.
+- `adult` (BooleanField): Czy film jest przeznaczony dla dorosłych.
+- `description` (TextField): Opis filmu, o maksymalnej długości 255 znaków.
+- `popularity` (DecimalField): Popularność filmu, wyrażona jako liczba z dwoma miejscami po przecinku.
+- `ticket_price` (FloatField): Cena biletu na film.
+- `room` (ForeignKey do modelu `Room`): Klucz obcy do modelu `Room`, reprezentujący salę kinową, w której odbywa się projekcja.
+
+### Model `Room`
+
+Model `Room` reprezentuje salę kinową. Zawiera informacje takie jak numer sali i pojemność.
+
+#### Pola modelu `Room`:
+
+- `number` (PositiveIntegerField): Numer sali kinowej, unikalny.
+- `capacity` (PositiveIntegerField): Pojemność sali kinowej, domyślnie ustawiona na 64 miejsca.
+
+### Model `Seat`
+
+Model `Seat` reprezentuje miejsce siedzące w sali kinowej. Zawiera informacje takie jak numer miejsca, numer rzędu, informację czy miejsce jest zajęte oraz powiązanie z filmem.
+
+#### Pola modelu `Seat`:
+
+- `seat_number` (PositiveIntegerField): Numer miejsca, z ograniczeniem wartości od 1 do 8.
+- `row_number` (PositiveIntegerField): Numer rzędu, z ograniczeniem wartości od 1 do 8.
+- `is_taken` (BooleanField): Informacja czy miejsce jest zajęte, domyślnie ustawiona na `False`.
+- `movie` (ForeignKey do modelu `Movie`): Klucz obcy do modelu `Movie`, reprezentujący film, związany z danym miejscem.
+
+### Model `Ticket`
+
+Model `Ticket` reprezentuje bilet na projekcję filmową. Zawiera informacje takie jak imię, nazwisko, email, numer telefonu, status osoby, powiązanie z filmem, miejscem siedzącym, ceną biletu i profilem użytkownika.
+
+#### Pola modelu `Ticket`:
+
+- `firstname` (CharField): Imię osoby rezerwującej bilet, o maksymalnej długości 32 znaki.
+- `lastname` (CharField): Nazwisko osoby rezerwującej bilet, o maksymalnej długości 32 znaki.
+- `email` (EmailField): Adres email osoby rezerwującej bilet.
+- `phone` (CharField): Numer telefonu osoby rezerwującej bilet, o maksymalnej długości 9 znaków.
+- `status` (CharField): Status osoby rezerwującej bilet, wybierany spośród dostępnych opcji.
+- `movie` (ForeignKey do modelu `Movie`): Klucz obcy do modelu `Movie`, reprezentujący film, na który jest rezerwacja.
+- `seat` (ForeignKey do modelu `Seat`): Klucz obcy do modelu `Seat`, reprezentujący miejsce siedzące, które jest zarezerwowane.
+- `ticket_price` (FloatField): Cena biletu.
+- `user_profile` (ForeignKey do modelu `UserProfile`): Klucz obcy do modelu `UserProfile`, reprezentujący profil użytkownika powiązany z rezerwacją. Może być wartością null.
+
+To są modele i relacje między nimi w aplikacji CinemaX. Opisane pola i relacje pozwalają na reprezentację użytkowników, filmów, sal kinowych, miejsc siedzących oraz rezerwacji biletów.
+
 ## Opisy klas w pliku `views.py`:
 
 ### 1. Klasa `FormValidation` (klasa abstrakcyjna)
