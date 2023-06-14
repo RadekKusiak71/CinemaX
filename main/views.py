@@ -417,11 +417,3 @@ class MovieReservationsAdmin(ReservationPage,View):
                     return redirect('movie_reservations_admin',ticket.movie.id)
                 except ticket.DoesNotExist:
                     pass
-
-
-            
-
-
-# # <!-- PRZYCISKI DO USUWANIA I ZMIENIANIA STATUSU REZERWACJI -->
-#                     <!-- <a href="{% url 'movie-reservations-page-delete' movie.id ticket.id %}" class="btn btn-danger">Cancel</a>
-#                     <a href="{% url 'reservation-status-change' ticket.id movie.id %}" class="btn btn-danger">Status change</a> -->
