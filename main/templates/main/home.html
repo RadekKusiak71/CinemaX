@@ -4,13 +4,15 @@
 
 {% block content %}
     <div class="home-container">
+        <h2 style="text-align: center;">Best Ocassions</h2>
         <div class="upper-container-home">
-            <a href="#" class="check-movies-block"> 
-                <div class="check-movies">Movie 1</div>
+            {% for ord_movie in ordered_movies %}
+            <a href="{% url 'movie_room_page' ord_movie.id %}" class="check-movies-block"> 
+                <div class="check-movies">
+                    <img src="{{ord_movie.image}}" alt="">
+                </div>
             </a>
-            <a href="#" class="check-movies-block">
-                <div class="check-movies">Movie 2</div>
-            </a>
+            {% endfor %}
         </div>
         <div class="lower-container-home">
             <div class="scroll1"><span>&larr;</span></div>

@@ -48,9 +48,14 @@ class APIFetcher:
 #HOME PAGE RENDERING
 class HomePage(View):
     def get(self,request):
+        cheapest_movies = self.get_cheapest_movies()
         movies = Movie.objects.all()
-        context = {'movies':movies}
+        context = {'movies':movies,'ordered_movies':cheapest_movies}
         return render(request,'main/home.html',context)
+    
+    def get_cheapest_movies(self):
+        movies = Movie.objects.all().order_by('-ticket_price')[0:2]
+        return movies
     
 #REGISTER PAGE HANDLING
 class RegisterRequest(FormValidation,View):
