@@ -27,7 +27,7 @@ class Movie(models.Model):
     adult = models.BooleanField()
     description = models.TextField(max_length=255)
     popularity = models.DecimalField(decimal_places=2,max_digits=6)
-    ticket_price = models.FloatField(default=20.00)
+    ticket_price = models.DecimalField(decimal_places=2,max_digits=4,default=20.00)
     room = models.ForeignKey('Room',default=None,on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -62,7 +62,7 @@ class Ticket(models.Model):
     status = models.CharField(max_length=7,choices=PersonStatus.choices,default=PersonStatus.NORMAL)
     movie = models.ForeignKey('Movie',on_delete=models.CASCADE,default=None)
     seat = models.ForeignKey('Seat',on_delete=models.CASCADE,default=None)
-    ticket_price = models.FloatField(default=20.00)
+    ticket_price = models.DecimalField(decimal_places=2,max_digits=4,default=20.00)
     user_profile = models.ForeignKey(UserProfile,on_delete=models.CASCADE,null=True)
     
     def __str__(self) -> str:
