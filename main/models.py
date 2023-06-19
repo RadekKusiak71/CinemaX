@@ -20,14 +20,14 @@ class Movie(models.Model):
 
     title = models.CharField(max_length=100)
     date = models.DateField()
-    time = models.TimeField()
+    time = models.TimeField(null=True)
     image = models.URLField()
     duration = models.PositiveIntegerField()
     language = models.CharField(max_length=30,choices=LanguageChoices.choices,default=LanguageChoices.ENGLISH)
     adult = models.BooleanField()
     description = models.TextField(max_length=255)
-    popularity = models.DecimalField(decimal_places=2,max_digits=6)
-    ticket_price = models.DecimalField(decimal_places=2,max_digits=4,default=20.00)
+    popularity = models.FloatField(null=True)
+    ticket_price = models.FloatField(default=20.00)
     room = models.ForeignKey('Room',default=None,on_delete=models.CASCADE)
 
     def __str__(self) -> str:
