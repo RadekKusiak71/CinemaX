@@ -1,6 +1,7 @@
 
 import requests
 from abc import ABC ,abstractmethod
+from decimal import Decimal
 
 from django.views import View
 from django.utils.decorators import method_decorator
@@ -101,9 +102,11 @@ class LoginRequest(FormValidation,View):
                 return redirect(success_url)
             else:
                 messages.error(self.request.error)
+                return redirect('login_page')
         else:
             messages.error(self.request,error_msg)
-
+            return redirect('login_page')
+        
 #LOGOUT REQUEST HANDLING
 class LogoutRequest(View):
     @method_decorator(login_required)
@@ -208,12 +211,12 @@ class MovieCreator(FormValidation,View):
     def post(self,request,pk):
         form = MovieCreationForm(request.POST)
         return self.form_validation(form,'home_page','movie_creator_page','Room is taken already...','You have successfuly created a movie',pk)
-    
     #Custom form_validation
     def form_validation(self, form, success_url, error_url,error_msg, success_msg,pk):
         if form.is_valid():
             form_data = self.get_form_dict(form)
             movie = self.get_api_data(pk,'fa16995ba428cf9d86c0d548254c7ffe')
+            print(movie['popularity'])
             if self.get_room_status(form_data['room'],form_data['time']):
                 messages.error(self.request,error_msg)
                 return redirect(error_url,pk)
