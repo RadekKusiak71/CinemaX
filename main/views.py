@@ -216,7 +216,6 @@ class MovieCreator(FormValidation,View):
         if form.is_valid():
             form_data = self.get_form_dict(form)
             movie = self.get_api_data(pk,'fa16995ba428cf9d86c0d548254c7ffe')
-            print(movie['popularity'])
             if self.get_room_status(form_data['room'],form_data['time']):
                 messages.error(self.request,error_msg)
                 return redirect(error_url,pk)
@@ -366,7 +365,7 @@ class ReservationDetailsPage(View):
         send_mail(
             "Cinema ticket details",
             message,
-            'radoslawkusiak12@gmail.com',
+            '', #ADD YOUR MAIL HERE
             [mail],
             fail_silently=True,
             )
@@ -396,7 +395,7 @@ class MovieReservationsAdmin(ReservationPage,View):
         send_mail(
             title,
             message,
-            'radoslawkusiak12@gmail.com',
+            '',#ADD YOUR MAIL HERE
             [mail],
             fail_silently=True,
             )
