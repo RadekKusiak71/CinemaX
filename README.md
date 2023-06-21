@@ -2,6 +2,9 @@
 
 CinemaX to aplikacja napisana w Django do zarządzania kinem.
 
+## Autorzy:
+- Radosław Kusiak
+
 ## Wykorzystane technologie:
 
 - Django
@@ -42,16 +45,21 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
 7. Konto admina:
    - Login : admin
    - Hasło : 123
-   
-8. W przeglądarce otwórz stronę 127.0.0.1:8000.
+8. Konfiguracja email w pliku settings.py
+```
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+```
+- Trzeba wypełnić puste luki oraz w pliku views.py wypełnić przy metodach send_mails() w polu sender swoim mailem
+  
+9. W przeglądarce otwórz stronę 127.0.0.1:8000.
 
 ## Użyte API:
 - [The Movie Database](https://www.themoviedb.org/)
-
-## Autorzy:
-
-- Radosław Kusiak
-- Szymon Drzycimski
 
 ## Template i podpięte do nich widoki:
 
