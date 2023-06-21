@@ -2,6 +2,9 @@
 
 CinemaX to aplikacja napisana w Django do zarządzania kinem.
 
+## Autorzy:
+- Radosław Kusiak
+
 ## Wykorzystane technologie:
 
 - Django
@@ -47,11 +50,6 @@ CinemaX to aplikacja napisana w Django do zarządzania kinem.
 
 ## Użyte API:
 - [The Movie Database](https://www.themoviedb.org/)
-
-## Autorzy:
-
-- Radosław Kusiak
-- Szymon Drzycimski
 
 ## Template i podpięte do nich widoki:
 
